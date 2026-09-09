@@ -1,0 +1,48 @@
+@parentId=CloudIntegrations
+
+@projectId=CloudIntegrations_WarmAgents
+@profileId=amazon-123
+@imageId=my-cloud-image
+
+@serverURL=my.teamcity.com
+
+# example only: do not store your tokens as plain-text in versioned files!
+@WARM_AGENTS_READ_ONLY_TOKEN=xxx
+@WARM_AGENTS_READ_WRITE_TOKEN=yyy
+
+### Set up 10 Warm Agents
+
+# @no-cookie-jar
+PUT https://{{ serverURL }}/app/{{ projectId }}/{{ profileId }}/{{ imageId }}/warmAgents?target=10
+Authorization: Bearer {{ WARM_AGENTS_READ_WRITE_TOKEN}}
+
+### Disable Warm Agents
+
+# @no-cookie-jar
+PUT https://{{ serverURL }}/app/{{ projectId }}/{{ profileId }}/{{ imageId }}/warmAgents?target=0
+Authorization: Bearer {{ WARM_AGENTS_READ_WRITE_TOKEN }}
+
+### See Configured Warm Agents
+
+# @no-cookie-jar
+GET https://{{ serverURL }}/app/{{ parentId }}/warmAgents?includeSubprojects=true
+Accept: application/json
+Authorization: Bearer {{ WARM_AGENTS_READ_ONLY_TOKEN }}
+
+### See Metrics
+
+# @no-cookie-jar
+GET https://{{ serverURL }}/app/projectMetrics?projectId={{ parentId }}
+Authorization: Bearer {{ WARM_AGENTS_READ_ONLY_TOKEN }}
+
+### List All Cloud Profiles of a Project
+
+GET https://{{ serverURL }}/app/rest/cloud/profiles/project:{{ projectId }}
+Accept: application/json
+Authorization: Bearer {{ WARM_AGENTS_READ_ONLY_TOKEN }}
+
+### List All Cloud Images of a Project
+
+GET https://{{ serverURL }}/app/rest/cloud/images/project:{{ projectId }}
+Accept: application/json
+Authorization: Bearer {{ WARM_AGENTS_READ_ONLY_TOKEN }}

@@ -1,0 +1,25 @@
+global:
+  scrape_interval: 60s
+  evaluation_interval: 60s
+
+scrape_configs:
+  - job_name: "teamcity-project-metrics"
+
+    scheme: https
+    metrics_path: /app/projectMetrics
+
+    params:
+      projectId:
+        - "WarmAgentsDemoProject"
+
+    static_configs:
+      - targets: ["my.teamcity.com"]
+        labels:
+          app: "teamcity"
+    http_headers:
+      Cookie:
+        values:
+          - "X-TeamCity-Node-Id-Cookie=main"
+    authorization:
+      type: Bearer
+      credentials_file: /run/prometheus/bearer
